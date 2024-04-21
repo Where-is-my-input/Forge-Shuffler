@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://bplb33joqk0ts"]
+
+[ext_resource type="PackedScene" uid="uid://djb4gdcyp0a3y" path="res://Scenes/player.tscn" id="1_s2jqc"]
+[ext_resource type="Script" path="res://Scenes/main.gd" id="1_v77yw"]
+[ext_resource type="PackedScene" uid="uid://drq5pagqeyruy" path="res://Scenes/enemy.tscn" id="2_irp8u"]
+[ext_resource type="Script" path="res://Scenes/Enemies.gd" id="3_5evra"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_v77yw")
+
+[node name="Player" parent="." instance=ExtResource("1_s2jqc")]
+
+[node name="Enemies" type="Node" parent="."]
+script = ExtResource("3_5evra")
+
+[node name="Enemy" parent="Enemies" instance=ExtResource("2_irp8u")]

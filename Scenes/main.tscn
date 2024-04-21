@@ -1,0 +1,88 @@
+[gd_scene load_steps=9 format=3 uid="uid://bplb33joqk0ts"]
+
+[ext_resource type="PackedScene" uid="uid://djb4gdcyp0a3y" path="res://Scenes/player.tscn" id="1_s2jqc"]
+[ext_resource type="Script" path="res://Scenes/main.gd" id="1_v77yw"]
+[ext_resource type="PackedScene" uid="uid://d0w85578udiun" path="res://Scenes/game_over_menu.tscn" id="2_h4oo5"]
+[ext_resource type="Script" path="res://Scenes/Enemies.gd" id="3_5evra"]
+[ext_resource type="PackedScene" uid="uid://behqxayiqyyhj" path="res://Scenes/forge.tscn" id="5_2w2lg"]
+[ext_resource type="Texture2D" uid="uid://dmmsgc34nqftq" path="res://Art/cenario.png" id="6_l8dgn"]
+[ext_resource type="AudioStream" uid="uid://cm4r2lwhlswt5" path="res://sfx/forging_flames.wav" id="8_nmrae"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_il11b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_l8dgn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_v77yw")
+
+[node name="GameOverMenu" parent="." instance=ExtResource("2_h4oo5")]
+visible = false
+
+[node name="GameScene" type="Node2D" parent="."]
+
+[node name="lblRecord" type="Label" parent="GameScene"]
+offset_left = 16.0
+offset_top = 80.0
+offset_right = 75.0
+offset_bottom = 103.0
+text = "Record:"
+
+[node name="lblFloorRecord" type="Label" parent="GameScene/lblRecord"]
+layout_mode = 0
+offset_left = 64.0
+offset_right = 104.0
+offset_bottom = 23.0
+vertical_alignment = 1
+
+[node name="lblFloor" type="Label" parent="GameScene"]
+offset_left = 16.0
+offset_top = 56.0
+offset_right = 65.0
+offset_bottom = 82.0
+text = "Floor:"
+
+[node name="floorNumber" type="Label" parent="GameScene/lblFloor"]
+layout_mode = 0
+offset_left = 48.0
+offset_right = 88.0
+offset_bottom = 23.0
+
+[node name="Player" parent="GameScene" instance=ExtResource("1_s2jqc")]
+
+[node name="Enemies" type="Node2D" parent="GameScene"]
+script = ExtResource("3_5evra")
+
+[node name="background" type="AnimatedSprite2D" parent="GameScene"]
+z_index = -15
+position = Vector2(580, 232)
+scale = Vector2(-1.01405, 1.32098)
+sprite_frames = SubResource("SpriteFrames_il11b")
+
+[node name="Forge" parent="." instance=ExtResource("5_2w2lg")]
+visible = false
+
+[node name="BackgroundSong" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_nmrae")
+autoplay = true
+
+[node name="timerFloorEnd" type="Timer" parent="."]
+
+[node name="timerGameOver" type="Timer" parent="."]
+
+[node name="timerScreenShake" type="Timer" parent="."]
+
+[connection signal="pressed" from="GameOverMenu/btnRestart" to="." method="_on_btn_restart_pressed"]
+[connection signal="pressed" from="GameOverMenu/btnMainMenu" to="." method="_on_btn_main_menu_pressed"]
+[connection signal="finished" from="BackgroundSong" to="." method="_on_background_song_finished"]
+[connection signal="timeout" from="timerFloorEnd" to="." method="_on_timer_floor_end_timeout"]
+[connection signal="timeout" from="timerGameOver" to="." method="_on_timer_game_over_timeout"]
+[connection signal="timeout" from="timerScreenShake" to="." method="_on_timer_screen_shake_timeout"]
+
+[editable path="GameOverMenu"]

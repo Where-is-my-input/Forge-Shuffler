@@ -1,0 +1,280 @@
+[gd_scene load_steps=22 format=3 uid="uid://drq5pagqeyruy"]
+
+[ext_resource type="Script" path="res://Scenes/enemy.gd" id="1_jn0b0"]
+[ext_resource type="Texture2D" uid="uid://j20hpo1p60sh" path="res://Art/chupa_cu.png" id="2_b1hmp"]
+[ext_resource type="Texture2D" uid="uid://co143wd2yhwk4" path="res://Art/orc.png" id="2_v23wo"]
+[ext_resource type="Texture2D" uid="uid://c45q3vstwxmpm" path="res://Art/sword.png" id="3_c3wkf"]
+[ext_resource type="Texture2D" uid="uid://86v18rn2sjac" path="res://Art/mina_maluca.png" id="3_f4c58"]
+[ext_resource type="Texture2D" uid="uid://c3ktldjepyb8d" path="res://Art/chupa_cu2.png" id="3_g0c3g"]
+[ext_resource type="Texture2D" uid="uid://dc107i0p4wlm4" path="res://Art/samara.png" id="4_krcli"]
+[ext_resource type="Texture2D" uid="uid://dejg1jl2syllm" path="res://Art/chupa_cu3.png" id="4_mcp0l"]
+[ext_resource type="Texture2D" uid="uid://bpch8hgav5bhw" path="res://Art/GreatoDoggo.png" id="5_e5b8o"]
+[ext_resource type="Texture2D" uid="uid://ofppjxvst0iu" path="res://Art/GreatoDoggo2.png" id="6_8r8a1"]
+[ext_resource type="Texture2D" uid="uid://bglw3jtwy85pn" path="res://Art/GreatoDoggo3.png" id="7_rtcmd"]
+[ext_resource type="Texture2D" uid="uid://dfcjj3y8qfc3x" path="res://Art/orc2.png" id="9_21kqn"]
+[ext_resource type="Texture2D" uid="uid://cid2vlqrnnwcg" path="res://Art/orc3.png" id="10_sn0gh"]
+[ext_resource type="Texture2D" uid="uid://cbghktcbiea4m" path="res://Art/samara2.png" id="13_7a057"]
+[ext_resource type="Texture2D" uid="uid://caok54bnd1hp5" path="res://Art/samara3.png" id="14_8k378"]
+[ext_resource type="Texture2D" uid="uid://bl0ebcehbx6qi" path="res://Art/slash.png" id="16_bgdhu"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gaxwv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_b1hmp")
+}],
+"loop": true,
+"name": &"ChupaCu",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_g0c3g")
+}],
+"loop": true,
+"name": &"ChupaCu2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_mcp0l")
+}],
+"loop": true,
+"name": &"ChupaCu3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_e5b8o")
+}],
+"loop": true,
+"name": &"GreatoDoggo",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_8r8a1")
+}],
+"loop": true,
+"name": &"GreatoDoggo2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_rtcmd")
+}],
+"loop": true,
+"name": &"GreatoDoggo3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_v23wo")
+}],
+"loop": true,
+"name": &"Orc0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_21kqn")
+}],
+"loop": true,
+"name": &"Orc2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_sn0gh")
+}],
+"loop": true,
+"name": &"Orc3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 5.0,
+"texture": ExtResource("3_f4c58")
+}, {
+"duration": 6.0,
+"texture": ExtResource("4_krcli")
+}],
+"loop": true,
+"name": &"Samara",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_7a057")
+}],
+"loop": true,
+"name": &"Samara2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_8k378")
+}],
+"loop": true,
+"name": &"Samara3",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_03g4t"]
+resource_name = "getHit"
+length = 0.333335
+loop_mode = 1
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/damaged:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"default"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationPlayer/damaged:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [null],
+"method": &"_on_animation_player_animation_finished"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_qfish"]
+resource_name = "none"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/damaged:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"none"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_scpm2"]
+_data = {
+"getHit": SubResource("Animation_03g4t"),
+"none": SubResource("Animation_qfish")
+}
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j23hd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_bgdhu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"none",
+"speed": 5.0
+}]
+
+[node name="Enemy" type="Node2D"]
+position = Vector2(4, -4)
+script = ExtResource("1_jn0b0")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(568, 204)
+scale = Vector2(0.156835, 0.205845)
+sprite_frames = SubResource("SpriteFrames_gaxwv")
+animation = &"Samara"
+
+[node name="HP" type="ProgressBar" parent="."]
+offset_left = 965.0
+offset_top = 10.0
+offset_right = 1143.0
+offset_bottom = 37.0
+show_percentage = false
+
+[node name="hpLabel" type="Label" parent="HP"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 2.0
+offset_right = 112.0
+offset_bottom = 25.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextEdit" type="Label" parent="."]
+offset_left = 1043.0
+offset_top = 43.0
+offset_right = 1094.0
+offset_bottom = 86.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SwordSprite" type="Sprite2D" parent="."]
+position = Vector2(1115, 63)
+scale = Vector2(0.106825, 0.106825)
+texture = ExtResource("3_c3wkf")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_scpm2")
+}
+
+[node name="damaged" type="AnimatedSprite2D" parent="AnimationPlayer"]
+position = Vector2(589, 194)
+scale = Vector2(0.438227, 0.438227)
+sprite_frames = SubResource("SpriteFrames_j23hd")
+
+[node name="lblDamageTaken" type="Label" parent="."]
+modulate = Color(0.624808, 0.0738113, 4.81308e-08, 1)
+offset_left = 908.0
+offset_top = 12.0
+offset_right = 982.0
+offset_bottom = 81.0
+scale = Vector2(0.649353, 0.649353)
+theme_override_font_sizes/font_size = 50
+text = "-15"
+
+[node name="timerDamageTaken" type="Timer" parent="lblDamageTaken"]
+
+[node name="timerFadeout" type="Timer" parent="."]
+
+[node name="lblHeal" type="Label" parent="."]
+modulate = Color(5.53504e-07, 0.506592, 0.114089, 1)
+offset_left = 660.0
+offset_top = 20.0
+offset_right = 747.0
+offset_bottom = 89.0
+theme_override_font_sizes/font_size = 50
+text = "+15"
+
+[node name="timerFlash" type="Timer" parent="."]
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="timeout" from="lblDamageTaken/timerDamageTaken" to="." method="_on_timer_damage_taken_timeout"]
+[connection signal="timeout" from="timerFadeout" to="." method="_on_timer_fadeout_timeout"]
+[connection signal="timeout" from="timerFlash" to="." method="_on_timer_flash_timeout"]

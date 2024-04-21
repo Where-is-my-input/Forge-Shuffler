@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://uuhcnfn5b08i"]
+
+[ext_resource type="Texture2D" uid="uid://bf8foeydml6tu" path="res://Art/ore.png" id="1_ijjhh"]
+
+[node name="oreSprite" type="Sprite2D"]
+position = Vector2(43, 413)
+scale = Vector2(0.0949555, 0.0949555)
+texture = ExtResource("1_ijjhh")
+
+[node name="lblOre" type="Label" parent="."]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.732
+offset_left = 442.312
+offset_top = -42.1254
+offset_right = -91.6879
+offset_bottom = -262.493
+theme_override_font_sizes/font_size = 200
+text = "x0"

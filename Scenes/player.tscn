@@ -1,0 +1,166 @@
+[gd_scene load_steps=16 format=3 uid="uid://djb4gdcyp0a3y"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_6xcae"]
+[ext_resource type="Script" path="res://Scenes/Cards.gd" id="2_8vlg8"]
+[ext_resource type="Script" path="res://Scenes/Deck.gd" id="2_gu1ds"]
+[ext_resource type="Texture2D" uid="uid://b0j2dltaoxf8r" path="res://icon.svg" id="2_inltu"]
+[ext_resource type="Script" path="res://Scenes/DeckDraw.gd" id="2_uycna"]
+[ext_resource type="Texture2D" uid="uid://cta0lh5p13852" path="res://Art/forge.png" id="3_xwtja"]
+[ext_resource type="Texture2D" uid="uid://bpefh8t0ipt40" path="res://Art/deck2.png" id="5_g5r4p"]
+[ext_resource type="Script" path="res://Scenes/Cemetery.gd" id="6_phkqu"]
+[ext_resource type="Script" path="res://Scenes/CemeteryDraw.gd" id="7_c7y8f"]
+[ext_resource type="Texture2D" uid="uid://cj2ifnxcl4vwu" path="res://Art/background.png" id="7_nl431"]
+[ext_resource type="Texture2D" uid="uid://dpo7ysinid5o0" path="res://Art/graveyard.png" id="9_1xq6y"]
+[ext_resource type="Texture2D" uid="uid://jd1n1oe6r57y" path="res://Art/heart.png" id="9_53wge"]
+[ext_resource type="PackedScene" uid="uid://uuhcnfn5b08i" path="res://Scenes/ore_sprite.tscn" id="12_p46pu"]
+[ext_resource type="Texture2D" uid="uid://dujh0s48hk15t" path="res://Art/shield.png" id="13_ubms1"]
+[ext_resource type="Texture2D" uid="uid://i1ftaoljk0b5" path="res://Art/bleed.png" id="14_h4ygg"]
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_6xcae")
+
+[node name="ViewCards" type="Node2D" parent="."]
+z_index = 10
+
+[node name="TextureRect" type="TextureRect" parent="ViewCards"]
+visible = false
+offset_left = 29.0
+offset_top = 36.0
+offset_right = 6285.0
+offset_bottom = 3544.0
+scale = Vector2(0.17367, 0.121851)
+texture = ExtResource("7_nl431")
+
+[node name="Button" type="Button" parent="ViewCards"]
+offset_left = 956.0
+offset_top = 403.0
+offset_right = 1101.0
+offset_bottom = 451.0
+text = "close"
+
+[node name="Sprite2D" type="Sprite2D" parent="ViewCards"]
+z_index = -1
+position = Vector2(573, 244)
+scale = Vector2(0.987456, 0.580516)
+texture = ExtResource("3_xwtja")
+
+[node name="Cards" type="Node" parent="."]
+script = ExtResource("2_8vlg8")
+
+[node name="Deck" type="Node2D" parent="."]
+script = ExtResource("2_gu1ds")
+
+[node name="DeckDraw" type="TextureButton" parent="Deck"]
+offset_left = 25.0
+offset_top = 495.0
+offset_right = 906.0
+offset_bottom = 1762.0
+scale = Vector2(0.108451, 0.108451)
+texture_normal = ExtResource("5_g5r4p")
+texture_disabled = ExtResource("2_inltu")
+script = ExtResource("2_uycna")
+
+[node name="DeckCards" type="Node" parent="Deck"]
+
+[node name="TextEdit" type="Label" parent="Deck"]
+offset_left = 72.0
+offset_top = 468.0
+offset_right = 114.0
+offset_bottom = 506.0
+text = "15"
+
+[node name="Cemetery" type="Node2D" parent="."]
+position = Vector2(999, 11)
+script = ExtResource("6_phkqu")
+
+[node name="CemeteryDraw" type="TextureButton" parent="Cemetery"]
+offset_left = -23.0
+offset_top = 494.0
+offset_right = 1529.0
+offset_bottom = 1734.0
+scale = Vector2(0.110816, 0.110816)
+texture_normal = ExtResource("9_1xq6y")
+texture_disabled = ExtResource("2_inltu")
+script = ExtResource("7_c7y8f")
+
+[node name="TextEdit" type="Label" parent="Cemetery"]
+offset_left = 71.0
+offset_top = 469.0
+offset_right = 89.0
+offset_bottom = 499.0
+text = "0"
+
+[node name="CemeteryCards" type="Node" parent="Cemetery"]
+
+[node name="HP" type="ProgressBar" parent="."]
+offset_left = 61.0
+offset_top = 11.0
+offset_right = 321.0
+offset_bottom = 38.0
+show_percentage = false
+
+[node name="heart" type="Sprite2D" parent="HP"]
+position = Vector2(-30, 17)
+scale = Vector2(0.084425, 0.0848656)
+texture = ExtResource("9_53wge")
+
+[node name="hpLabel" type="Label" parent="HP"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 2.0
+offset_right = 179.0
+offset_bottom = 25.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="oreSprite" parent="." instance=ExtResource("12_p46pu")]
+
+[node name="Block" type="Sprite2D" parent="."]
+position = Vector2(349, 25)
+scale = Vector2(0.110064, 0.110064)
+texture = ExtResource("13_ubms1")
+
+[node name="lblBlock" type="Label" parent="Block"]
+offset_left = -218.055
+offset_top = -136.284
+offset_right = -178.055
+offset_bottom = -113.284
+scale = Vector2(11.5529, 11.5529)
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="lblDamageTaken" type="Label" parent="."]
+offset_left = 251.0
+offset_top = 40.0
+offset_right = 291.0
+offset_bottom = 63.0
+scale = Vector2(1.65925, 1.98988)
+theme_override_colors/font_color = Color(0.818297, 0, 0.136232, 1)
+text = "-5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="timerDamageTaken" type="Timer" parent="lblDamageTaken"]
+
+[node name="sprBleeding" type="Sprite2D" parent="."]
+modulate = Color(0.616222, 0, 0.090564, 1)
+position = Vector2(387, 28)
+scale = Vector2(0.399196, 0.341812)
+texture = ExtResource("14_h4ygg")
+
+[node name="timerDrawHand" type="Timer" parent="."]
+one_shot = true
+
+[node name="lblHeal" type="Label" parent="."]
+self_modulate = Color(0.0493715, 0.595166, 0, 1)
+offset_left = 136.0
+offset_top = 27.0
+offset_right = 223.0
+offset_bottom = 96.0
+theme_override_font_sizes/font_size = 50
+text = "+15"
+
+[connection signal="pressed" from="ViewCards/Button" to="." method="_on_button_pressed"]
+[connection signal="timeout" from="lblDamageTaken/timerDamageTaken" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="timerDrawHand" to="." method="_on_timer_draw_hand_timeout"]

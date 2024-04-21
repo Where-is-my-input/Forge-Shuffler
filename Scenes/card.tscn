@@ -1,0 +1,137 @@
+[gd_scene load_steps=12 format=3 uid="uid://bqbr7lqnynt7w"]
+
+[ext_resource type="Script" path="res://Scenes/card.gd" id="1_sger8"]
+[ext_resource type="Texture2D" uid="uid://beh3ovhsa5a8l" path="res://Art/strike.png" id="2_0de7h"]
+[ext_resource type="Texture2D" uid="uid://bkm13lywwc7sa" path="res://Art/heal.png" id="2_hhcrp"]
+[ext_resource type="Texture2D" uid="uid://cj1odc68g2fjh" path="res://Art/block.png" id="3_6g5cp"]
+[ext_resource type="Texture2D" uid="uid://7q4u0nen8haf" path="res://Art/magic_dmg.png" id="5_rma8l"]
+[ext_resource type="AudioStream" uid="uid://s3dif3cw7ry5" path="res://sfx/blacksmith_1.wav" id="6_7ol1m"]
+[ext_resource type="AudioStream" uid="uid://kkfi887ofrtg" path="res://sfx/blacksmith_2.wav" id="7_p2s4d"]
+[ext_resource type="AudioStream" uid="uid://bm3en5x1gx8t" path="res://sfx/blacksmith_3.wav" id="8_s7x4u"]
+[ext_resource type="AudioStream" uid="uid://trycxgl2cowf" path="res://sfx/blacksmith_4.wav" id="9_kfqin"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ojdhx"]
+size = Vector2(108, 150)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h3uiq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0de7h")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_6g5cp")
+}],
+"loop": true,
+"name": &"block",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hhcrp")
+}],
+"loop": true,
+"name": &"heal",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_rma8l")
+}],
+"loop": true,
+"name": &"magic",
+"speed": 5.0
+}]
+
+[node name="Card" type="Node2D"]
+script = ExtResource("1_sger8")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_ojdhx")
+
+[node name="TextEdit" type="Label" parent="."]
+z_index = 1
+offset_left = -10.0
+offset_top = 48.0
+offset_right = 38.0
+offset_bottom = 117.0
+scale = Vector2(0.433398, 0.40448)
+theme_override_font_sizes/font_size = 50
+text = "8"
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 162
+
+[node name="Button" type="Button" parent="."]
+offset_left = -53.0
+offset_top = 88.0
+offset_right = 22.0
+offset_bottom = 119.0
+scale = Vector2(0.484846, 0.421392)
+theme_override_font_sizes/font_size = 50
+text = "Upgrade"
+
+[node name="cardSprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.15, 0.15)
+sprite_frames = SubResource("SpriteFrames_h3uiq")
+animation = &"magic"
+
+[node name="lblBuff" type="Label" parent="."]
+offset_left = -5.0
+offset_top = -81.0
+offset_right = 196.0
+offset_bottom = -12.0
+scale = Vector2(0.268063, 0.268063)
+theme_override_font_sizes/font_size = 50
+text = "+MaxHP"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="lblBuffLevel" type="Label" parent="."]
+offset_left = 16.0
+offset_top = -68.0
+offset_right = 126.0
+offset_bottom = 1.0
+scale = Vector2(0.299929, 0.299929)
+theme_override_font_sizes/font_size = 50
+text = "Lvl 1"
+vertical_alignment = 1
+
+[node name="lblLvl" type="Label" parent="."]
+offset_left = -46.0
+offset_top = 12.0
+offset_right = -6.0
+offset_bottom = 81.0
+scale = Vector2(0.232575, 0.232575)
+theme_override_font_sizes/font_size = 50
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ForgingSounds" type="Node" parent="."]
+
+[node name="audForging" type="AudioStreamPlayer2D" parent="ForgingSounds"]
+stream = ExtResource("6_7ol1m")
+volume_db = -15.0
+
+[node name="audForging2" type="AudioStreamPlayer2D" parent="ForgingSounds"]
+stream = ExtResource("7_p2s4d")
+volume_db = -15.0
+
+[node name="audForging3" type="AudioStreamPlayer2D" parent="ForgingSounds"]
+stream = ExtResource("8_s7x4u")
+volume_db = -15.0
+
+[node name="audForging4" type="AudioStreamPlayer2D" parent="ForgingSounds"]
+stream = ExtResource("9_kfqin")
+volume_db = -15.0
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
