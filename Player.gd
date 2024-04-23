@@ -17,6 +17,9 @@ var PlayerHand = []
 @onready var spr_bleeding = $sprBleeding
 @onready var timer_draw_hand = $timerDrawHand
 @onready var lbl_heal = $lblHeal
+@onready var lbl_max_block = $Block/lblMaxBlock
+@onready var sfx = $SFX
+@onready var lbl_bleed = $sprBleeding/lblBleed
 
 @onready var CentreCardOval = Vector2(get_viewport().size.x, get_viewport().size.y) * Vector2(0.5, 1)
 @onready var Hor_rad = get_viewport().size.x * 0.65
@@ -78,15 +81,19 @@ func updateHUD():
 	lbl_ore.text = str("x", Global.ores)
 	lbl_block.text = str(currentBlock)
 	spr_bleeding.visible = bleeding
-	block.visible = currentBlock > 0
+	lbl_bleed.visible = bleeding
+	#block.visible = currentBlock > 0
+	lbl_max_block.text = str(maxBlock)
 
 func endTurn():
-	bleed()
 	cards.endTurn()
+	await get_tree().create_timer(1).timeout
+	bleed()
 
 func bleed():
 	if bleeding:
 		currentHp -= floor(maxHP * 0.1)
+		lbl_bleed.text = str("-",floor(maxHP * 0.1))
 		bleedingTurns -= 1
 		updateHUD()
 		if bleedingTurns <= 0:
@@ -95,22 +102,44 @@ func bleed():
 		gameOver()
 
 func getHit(damage, blockBreak = false, flBleeding = false):
-	if currentBlock >= damage:
+	var miss = damage <= 0
+	var blocked = false
+	if damage < 0:
 		damage = 0
-	if blockBreak:
+	if currentBlock >= damage && damage > 0:
+		blocked = true
+		damage = floor(damage * 0.1)
+		currentBlock -= 1
+		if !blockBreak: sfx.playGetBlock()
+		if currentBlock <= 0:
+			sfx.playBreakBlock()
+			currentBlock = 0
+	elif currentBlock > 0 && damage > 0:
+		currentBlock -= 1
+		damage = floor(damage * 0.5)
+	if blockBreak && currentBlock > 0 && damage > 0:
+		sfx.playBreakBlock()
 		currentBlock = 0
-		damage = 0
+		damage = floor(damage * 0.1)
 	if flBleeding:
 		bleedingTurns = floor(damage/3)
-		bleeding = true
+		if bleedingTurns > 0: bleeding = true
 	damage = floor(damage)
 	currentHp -= damage
 	if damage > 0:
+		sfx.playGetHit()
 		lbl_damage_taken.visible = true
 		lbl_damage_taken.text = str("-", damage)
 		timer_damage_taken.start(3)
+	elif !blocked:
+		lbl_damage_taken.visible = true
+		if miss: 
+			lbl_damage_taken.text = str("miss")
+			sfx.playMiss()
+		timer_damage_taken.start(3)
 	updateHUD()
 	if currentHp <= 0:
+		currentHp = 0
 		gameOver()
 	return damage > 0
 
@@ -132,7 +161,7 @@ func endFloor():
 		deck.addCard(c)
 
 func heal(value):
-	bleeding = false
+	sfx.playHeal()
 	currentHp += floor(value)
 	if currentHp > maxHP:
 		currentHp = maxHP
@@ -184,12 +213,13 @@ func hideCards():
 	deck.hideCards()
 
 func getBlock(value, flBuffBlock = false):
-	if floor(value) > currentBlock:
-		currentBlock = floor(value)
 	if flBuffBlock:
-		maxBlock += 1
-	if currentBlock > maxBlock:
-		currentBlock = maxBlock
+		maxBlock += value
+	else:
+		currentBlock += floor(value)
+		if currentBlock > maxBlock:
+			currentBlock = maxBlock
+	sfx.playGetBlock()
 	updateHUD()
 
 func _on_timer_timeout():
@@ -207,3 +237,4 @@ func lowerBleeding(value):
 
 func _on_timer_draw_hand_timeout():
 	draw(3)
+	lbl_bleed.text = str("x", bleedingTurns)

@@ -37,7 +37,7 @@ func _ready():
 func cardAction(card):
 	if card.buffActive:
 		match card.buffType:
-			0: player.getBlock((card.lvl / card.lvlThreshold))
+			0: player.getBlock((card.lvl / card.lvlThreshold), true)
 			1: player.getMaxHP((card.lvl / card.lvlThreshold))
 			2: player.lowerBleeding((card.lvl / card.lvlThreshold))
 	var multiplier = 1
@@ -47,7 +47,7 @@ func cardAction(card):
 	elif card.type == 2:
 		enemies.getHit(card.atk, 1)
 	elif card.type == 3:
-		player.getBlock(card.atk, true)
+		player.getBlock(card.atk)
 	else:
 		if enemies.getType() == 0:
 			match enemies.getTypeVariation():
@@ -56,6 +56,7 @@ func cardAction(card):
 				2: multiplier = 0.2
 		enemies.heal(card.atk * (1 - multiplier))
 		player.heal(card.atk * multiplier)
+	await get_tree().create_timer(1).timeout
 	enemies.playTurn()
 
 func enemyAction(enemy):
@@ -79,7 +80,6 @@ func enemyAction(enemy):
 				0: blockBreak = damage > enemy.atk + 2
 				1: blockBreak = damage > enemy.atk
 				2: blockBreak = damage > enemy.atk - 5
-			
 	if player.getHit(damage, blockBreak, bleeding):
 		startTimerScreenShake()
 	if !flGameOver && enemy.currentHP > 0:

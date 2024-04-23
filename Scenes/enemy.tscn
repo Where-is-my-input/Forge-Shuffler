@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://drq5pagqeyruy"]
+[gd_scene load_steps=28 format=3 uid="uid://drq5pagqeyruy"]
 
 [ext_resource type="Script" path="res://Scenes/enemy.gd" id="1_jn0b0"]
 [ext_resource type="Texture2D" uid="uid://j20hpo1p60sh" path="res://Art/chupa_cu.png" id="2_b1hmp"]
@@ -16,6 +16,11 @@
 [ext_resource type="Texture2D" uid="uid://cbghktcbiea4m" path="res://Art/samara2.png" id="13_7a057"]
 [ext_resource type="Texture2D" uid="uid://caok54bnd1hp5" path="res://Art/samara3.png" id="14_8k378"]
 [ext_resource type="Texture2D" uid="uid://bl0ebcehbx6qi" path="res://Art/slash.png" id="16_bgdhu"]
+[ext_resource type="AudioStream" uid="uid://dnosuostfg8ei" path="res://sfx/sword-1a.wav" id="17_4wak2"]
+[ext_resource type="Script" path="res://Scenes/enemySfx.gd" id="17_sptya"]
+[ext_resource type="AudioStream" uid="uid://h5huu2n2y8a5" path="res://sfx/sword-1b.wav" id="18_r4vy4"]
+[ext_resource type="AudioStream" uid="uid://bbgrfrijkv1e7" path="res://sfx/sword-arm-2a.wav" id="19_ni0p3"]
+[ext_resource type="AudioStream" uid="uid://bqdvrc5auwpgg" path="res://sfx/sword-arm-2b.wav" id="20_g6pei"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_gaxwv"]
 animations = [{
@@ -200,6 +205,18 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_sbadj"]
+playback_mode = 1
+streams_count = 4
+stream_0/stream = ExtResource("17_4wak2")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("18_r4vy4")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("19_ni0p3")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("20_g6pei")
+stream_3/weight = 1.0
+
 [node name="Enemy" type="Node2D"]
 position = Vector2(4, -4)
 script = ExtResource("1_jn0b0")
@@ -273,6 +290,12 @@ theme_override_font_sizes/font_size = 50
 text = "+15"
 
 [node name="timerFlash" type="Timer" parent="."]
+
+[node name="sfx" type="Node" parent="."]
+script = ExtResource("17_sptya")
+
+[node name="sfxSword" type="AudioStreamPlayer2D" parent="sfx"]
+stream = SubResource("AudioStreamRandomizer_sbadj")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="lblDamageTaken/timerDamageTaken" to="." method="_on_timer_damage_taken_timeout"]

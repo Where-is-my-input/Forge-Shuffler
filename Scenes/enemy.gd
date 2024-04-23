@@ -15,6 +15,7 @@ const FADE_IN_COLOR = Color(0,0,0,0)
 @onready var timer_fadeout = $timerFadeout
 @onready var lbl_heal = $lblHeal
 @onready var timer_flash = $timerFlash
+@onready var sfx = $sfx
 
 var maxHP = 10
 var currentHP = maxHP
@@ -48,7 +49,10 @@ func getHit(value, damageType = 0):
 	lbl_damage_taken.visible = true
 	timer_damage_taken.start(10)
 	updateHud()
+	sfx.playGetHit()
 	if currentHP <= 0:
+		currentHP = 0
+		updateHud()
 		die()
 
 func updateHud():

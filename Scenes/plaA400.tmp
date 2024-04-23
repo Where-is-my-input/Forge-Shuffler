@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://djb4gdcyp0a3y"]
+[gd_scene load_steps=30 format=3 uid="uid://djb4gdcyp0a3y"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_6xcae"]
 [ext_resource type="Script" path="res://Scenes/Cards.gd" id="2_8vlg8"]
@@ -26,9 +26,6 @@
 [ext_resource type="AudioStream" uid="uid://bkcak2i1faqos" path="res://sfx/punch_1b.wav" id="24_p0jn1"]
 [ext_resource type="AudioStream" uid="uid://ckav1i3wdk82g" path="res://sfx/punch_alt-2a.wav" id="25_ahh4t"]
 [ext_resource type="AudioStream" uid="uid://dfksw20adpxjf" path="res://sfx/punch_alt-2b.wav" id="26_u2mwg"]
-[ext_resource type="AudioStream" uid="uid://c4dch463c27pl" path="res://sfx/swing2.wav" id="27_6xjf4"]
-[ext_resource type="AudioStream" uid="uid://dmejyvrw7gj0y" path="res://sfx/swing3.wav" id="28_gifgh"]
-[ext_resource type="AudioStream" uid="uid://cbo26fe3brjfj" path="res://sfx/swing.wav" id="29_wobvf"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_v3prm"]
 streams_count = 2
@@ -57,22 +54,12 @@ stream_2/weight = 1.0
 stream_3/stream = ExtResource("26_u2mwg")
 stream_3/weight = 1.0
 
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_rvv7x"]
-streams_count = 3
-stream_0/stream = ExtResource("27_6xjf4")
-stream_0/weight = 1.0
-stream_1/stream = ExtResource("28_gifgh")
-stream_1/weight = 1.0
-stream_2/stream = ExtResource("29_wobvf")
-stream_2/weight = 1.0
-
 [node name="Player" type="Node2D"]
-z_index = 5
 script = ExtResource("1_6xcae")
 
 [node name="ViewCards" type="Node2D" parent="."]
 visible = false
-z_index = 6
+z_index = 10
 
 [node name="TextureRect" type="TextureRect" parent="ViewCards"]
 visible = false
@@ -201,13 +188,12 @@ theme_override_font_sizes/font_size = 50
 text = "3"
 
 [node name="lblDamageTaken" type="Label" parent="."]
-offset_left = 299.0
-offset_top = 22.0
-offset_right = 344.0
-offset_bottom = 91.0
-scale = Vector2(0.996759, 1.19538)
+offset_left = 251.0
+offset_top = 40.0
+offset_right = 291.0
+offset_bottom = 63.0
+scale = Vector2(1.65925, 1.98988)
 theme_override_colors/font_color = Color(0.818297, 0, 0.136232, 1)
-theme_override_font_sizes/font_size = 50
 text = "-5"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -220,26 +206,15 @@ position = Vector2(92, 63)
 scale = Vector2(0.399196, 0.341812)
 texture = ExtResource("14_h4ygg")
 
-[node name="lblBleed" type="Label" parent="sprBleeding"]
-visible = false
-modulate = Color(0.67342, 0.118356, 0, 1)
-offset_left = 40.0806
-offset_top = -49.7349
-offset_right = 97.0806
-offset_bottom = 19.2651
-scale = Vector2(1.77087, 1.77087)
-theme_override_font_sizes/font_size = 50
-text = "x2"
-
 [node name="timerDrawHand" type="Timer" parent="."]
 one_shot = true
 
 [node name="lblHeal" type="Label" parent="."]
 self_modulate = Color(0.0493715, 0.595166, 0, 1)
-offset_left = 175.0
-offset_top = 30.0
-offset_right = 262.0
-offset_bottom = 99.0
+offset_left = 136.0
+offset_top = 27.0
+offset_right = 223.0
+offset_bottom = 96.0
 theme_override_font_sizes/font_size = 50
 text = "+15"
 
@@ -257,9 +232,6 @@ stream = SubResource("AudioStreamRandomizer_6m06u")
 
 [node name="sfxGetHit" type="AudioStreamPlayer2D" parent="SFX"]
 stream = SubResource("AudioStreamRandomizer_wvywn")
-
-[node name="sfxMiss" type="AudioStreamPlayer2D" parent="SFX"]
-stream = SubResource("AudioStreamRandomizer_rvv7x")
 
 [connection signal="pressed" from="ViewCards/Button" to="." method="_on_button_pressed"]
 [connection signal="timeout" from="lblDamageTaken/timerDamageTaken" to="." method="_on_timer_timeout"]

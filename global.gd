@@ -6,7 +6,7 @@ signal enemyDead()
 signal gameOver()
 signal oreSpent()
 
-var ores = 0
+var ores = 1000
 var deck
 
 func setDeck(cards):

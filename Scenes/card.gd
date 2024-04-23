@@ -21,6 +21,7 @@ var buffActive = false
 @onready var aud_forging_4 = $ForgingSounds/audForging4
 
 var state = 0
+var upgradePressed = false
 
 func _ready():
 	button.visible = false
@@ -82,15 +83,23 @@ func hideCard():
 	visible = false
 
 func _on_button_pressed():
-	if Global.ores > 0:
-		playForgingSfx()
-		lvl += 1
-		if lvl % lvlThreshold == 0:
-			activateBuff()
-		Global.ores -= 1
-		atk += 1
-		Global.oreSpent.emit()
-		updateHUD()
+	upgradePressed = true
+	upgrade()
+
+func upgrade():
+	while upgradePressed:
+		if Global.ores > 0:
+			playForgingSfx()
+			lvl += 1
+			if lvl % lvlThreshold == 0:
+				activateBuff()
+			Global.ores -= 1
+			atk += 1
+			Global.oreSpent.emit()
+			updateHUD()
+		else:
+			upgradePressed = false
+		await get_tree().create_timer(0.09).timeout
 
 func playForgingSfx():
 	match randi_range(0,3):
@@ -108,3 +117,7 @@ func activateBuff(): #Block, MaxHP, healBleed
 		1: lbl_buff.text = str("+MaxHP")
 		2: lbl_buff.text = str("-Bleed")
 	lbl_buff_level.text = str("Lvl", (lvl / lvlThreshold))
+
+
+func _on_button_button_up():
+	upgradePressed = false
