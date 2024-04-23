@@ -15,6 +15,7 @@ extends Node2D
 @onready var background = $GameScene/background
 @onready var timer_screen_shake = $timerScreenShake
 
+
 var floor = 0
 var floorRecord = floor
 var flGameOver = false
@@ -33,6 +34,7 @@ func _ready():
 	enemies.newEnemy()
 	game_over_menu.visible = false
 	updateHUD()
+	Engine.time_scale = 1
 
 func cardAction(card):
 	if card.buffActive:

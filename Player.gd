@@ -20,6 +20,8 @@ var PlayerHand = []
 @onready var lbl_max_block = $Block/lblMaxBlock
 @onready var sfx = $SFX
 @onready var lbl_bleed = $sprBleeding/lblBleed
+@onready var pause_menu: CanvasLayer = $PauseMenu
+
 
 @onready var CentreCardOval = Vector2(get_viewport().size.x, get_viewport().size.y) * Vector2(0.5, 1)
 @onready var Hor_rad = get_viewport().size.x * 0.65
@@ -48,6 +50,9 @@ func _ready():
 	view_cards.visible = false
 	lbl_damage_taken.visible = false
 	updateHUD()
+
+func _process(delta: float) -> void:
+	PauseGame()
 
 func drawCard():
 	OvalAngleVector = Vector2(Hor_rad * cos(angle), - Ver_rad * sin(angle))
@@ -183,7 +188,8 @@ func viewCards(cards):
 	var initialX = 100
 	var position = Vector2(initialX, 150)
 	var offset = Vector2(120, 180)
-	var viewportSize = get_viewport().size
+	var viewportSize = get_viewport().content_scale_size
+	#var viewportSize = get_viewport_rect().size also works
 	for c in cards:
 		c.view(position)
 		position.x += offset.x
@@ -234,6 +240,11 @@ func lowerBleeding(value):
 	bleedingTurns -= value
 	if bleedingTurns <= 0:
 		bleeding = false
+
+func PauseGame() -> void:
+	if Input.is_action_just_pressed("Pause_Exit") && !pause_menu.visible:
+		Engine.time_scale = 0
+		pause_menu.visible = true
 
 func _on_timer_draw_hand_timeout():
 	draw(3)

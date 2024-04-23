@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://djb4gdcyp0a3y"]
+[gd_scene load_steps=35 format=3 uid="uid://djb4gdcyp0a3y"]
 
 [ext_resource type="Script" path="res://Player.gd" id="1_6xcae"]
 [ext_resource type="Script" path="res://Scenes/Cards.gd" id="2_8vlg8"]
@@ -29,6 +29,7 @@
 [ext_resource type="AudioStream" uid="uid://c4dch463c27pl" path="res://sfx/swing2.wav" id="27_6xjf4"]
 [ext_resource type="AudioStream" uid="uid://dmejyvrw7gj0y" path="res://sfx/swing3.wav" id="28_gifgh"]
 [ext_resource type="AudioStream" uid="uid://cbo26fe3brjfj" path="res://sfx/swing.wav" id="29_wobvf"]
+[ext_resource type="PackedScene" uid="uid://bd1cfbd74dg5i" path="res://Scenes/PauseMenu.tscn" id="30_awa0m"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_v3prm"]
 streams_count = 2
@@ -82,6 +83,7 @@ offset_right = 6285.0
 offset_bottom = 3544.0
 scale = Vector2(0.17367, 0.121851)
 texture = ExtResource("7_nl431")
+stretch_mode = 3
 
 [node name="Button" type="Button" parent="ViewCards"]
 offset_left = 956.0
@@ -260,6 +262,9 @@ stream = SubResource("AudioStreamRandomizer_wvywn")
 
 [node name="sfxMiss" type="AudioStreamPlayer2D" parent="SFX"]
 stream = SubResource("AudioStreamRandomizer_rvv7x")
+
+[node name="PauseMenu" parent="." instance=ExtResource("30_awa0m")]
+visible = false
 
 [connection signal="pressed" from="ViewCards/Button" to="." method="_on_button_pressed"]
 [connection signal="timeout" from="lblDamageTaken/timerDamageTaken" to="." method="_on_timer_timeout"]
