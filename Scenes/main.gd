@@ -39,9 +39,9 @@ func _ready():
 func cardAction(card):
 	if card.buffActive:
 		match card.buffType:
-			0: player.getBlock((card.lvl / card.lvlThreshold), true)
-			1: player.getMaxHP((card.lvl / card.lvlThreshold))
-			2: player.lowerBleeding((card.lvl / card.lvlThreshold))
+			0: player.getBlock(card.buffLevel, true)
+			1: player.getMaxHP(card.buffLevel)
+			2: player.lowerBleeding(card.buffLevel)
 	var multiplier = 1
 	player.endTurn()
 	if card.type == 0:

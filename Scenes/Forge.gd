@@ -12,7 +12,7 @@ func viewCards(cards):
 	var initialX = 100
 	var position = Vector2(initialX, 150)
 	var offset = Vector2(120, 220)
-	var viewportSize = get_viewport().size
+	var viewportSize = get_viewport().content_scale_size
 	for c in cards:
 		c.view(position, true)
 		position.x += offset.x

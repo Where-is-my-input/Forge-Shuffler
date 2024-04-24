@@ -8,8 +8,12 @@ var lvl = 1
 var lvlThreshold = 3
 var buffType = 0 #Block, MaxHP, healBleed
 var buffActive = false
+var buffLevel = 0
 
-@onready var button = $Button
+@onready var card_btn_container = $cardBtnContainer
+@onready var button = $cardBtnContainer/btnUpgrade
+@onready var btn_regenerate = $cardBtnContainer/btnRegenerate
+@onready var btn_buff_lvl_up = $cardBtnContainer/btnBuffLvlUp
 @onready var text_edit = $TextEdit
 @onready var card_sprite = $cardSprite
 @onready var lbl_buff = $lblBuff
@@ -22,9 +26,10 @@ var buffActive = false
 
 var state = 0
 var upgradePressed = false
+var buffPressed = false
 
 func _ready():
-	button.visible = false
+	card_btn_container.visible = false
 	lbl_buff.visible = false
 	lbl_buff_level.visible = false
 	setSprite()
@@ -36,6 +41,9 @@ func setAtributes(t, a):
 	type = t
 	buffType = randi_range(0, 2)
 	lvlThreshold = randi_range(atk, atk * 2) + 1
+	buffActive = false
+	buffLevel = 0
+	lvl = 1
 
 func setSprite():
 	match type:
@@ -75,11 +83,11 @@ func view(position, flForge = false):
 	global_position = position
 	visible = true
 	if flForge:
-		button.visible = true
+		card_btn_container.visible = true
 	updateHUD()
 
 func hideCard():
-	button.visible = false
+	card_btn_container.visible = false
 	visible = false
 
 func _on_button_pressed():
@@ -109,15 +117,49 @@ func playForgingSfx():
 		3: aud_forging_4.play()
 
 func activateBuff(): #Block, MaxHP, healBleed
-	buffActive = true
-	lbl_buff.visible = true
-	lbl_buff_level.visible = true
-	match buffType:
-		0: lbl_buff.text = str("+Block")
-		1: lbl_buff.text = str("+MaxHP")
-		2: lbl_buff.text = str("-Bleed")
-	lbl_buff_level.text = str("Lvl", (lvl / lvlThreshold))
+	buffLevel += 1
+	if !buffActive:
+		buffActive = true
+		lbl_buff.visible = true
+		lbl_buff_level.visible = true
+		match buffType:
+			0: lbl_buff.text = str("+Block")
+			1: lbl_buff.text = str("+MaxHP")
+			2: lbl_buff.text = str("-Bleed")
+	lbl_buff_level.text = str("Lvl", buffLevel)
 
+func deactivateBuff():
+	buffLevel = 0
+	buffActive = false
+	lbl_buff.visible = buffActive
+	lbl_buff_level.visible = buffActive
 
 func _on_button_button_up():
 	upgradePressed = false
+
+func _on_btn_regenerate_button_down():
+	if Global.regenerateOres > 0:
+		Global.regenerateOres -= 1
+		Global.regenerateOreSpent.emit()
+		deactivateBuff()
+		generate((randi()%10)+1)
+		setSprite()
+		updateHUD()
+
+func _on_btn_buff_lvl_up_button_down():
+	buffPressed = true
+	buffLevelUp()
+
+func buffLevelUp():
+	while buffPressed:
+		if Global.buffLvlOres > 0:
+			Global.buffLvlOres -= 1
+			Global.buffLvlOreSpent.emit()
+			activateBuff()
+			updateHUD()
+		else:
+			buffPressed = false
+		await get_tree().create_timer(0.09).timeout
+
+func _on_btn_buff_lvl_up_button_up():
+	buffPressed = false
